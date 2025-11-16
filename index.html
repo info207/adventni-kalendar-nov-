@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!doctype html>
+<html lang="cs">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adventní kalendář</title>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #0f4c75, #3282b8, #bbe1fa);
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #ffd700;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #c41e3a, #8b0000);
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .calendar-day:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(255,215,0,0.5);
+            border-color: #fff;
+        }
+        
+        .calendar-day.opened {
+            background: linear-gradient(135deg, #228b22, #006400);
+            animation: sparkle 2s ease-in-out;
+        }
+        
+        .calendar-day::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        
+        .calendar-day:hover::before {
+            opacity: 1;
+            animation: shine 0.5s ease-in-out;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 4px 12px rgba(255,107,107,0.6);
+            }
+        }
+        
+        .active-today {
+            animation: pulse 2s infinite !important;
+        }
+        
+        .locked-day, .past-day {
+            pointer-events: none;
+        }
+        
+        .snow {
+            position: fixed;
+            top: -10px;
+            color: white;
+            user-select: none;
+            pointer-events: none;
+            font-size: 12px;
+            animation: fall linear infinite;
+        }
+        
+        .message {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.4;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 480px) {
+            .calendar-grid {
+                max-width: 350px;
+                gap: 4px;
+            }
+            
+            .calendar-day {
+                font-size: 12px;
+                border-radius: 6px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+            
+            .message {
+                font-size: 12px;
+                padding: 12px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <h1>🎄 Adventní kalendář 2024 🎄</h1>
+   <div class="calendar-grid">
+    <div class="calendar-day" data-day="1">
+     1
+    </div>
+    <div class="calendar-day" data-day="2">
+     2
+    </div>
+    <div class="calendar-day" data-day="3">
+     3
+    </div>
+    <div class="calendar-day" data-day="4">
+     4
+    </div>
+    <div class="calendar-day" data-day="5">
+     5
+    </div>
+    <div class="calendar-day" data-day="6">
+     6
+    </div>
+    <div class="calendar-day" data-day="7">
+     7
+    </div>
+    <div class="calendar-day" data-day="8">
+     8
+    </div>
+    <div class="calendar-day" data-day="9">
+     9
+    </div>
+    <div class="calendar-day" data-day="10">
+     10
+    </div>
+    <div class="calendar-day" data-day="11">
+     11
+    </div>
+    <div class="calendar-day" data-day="12">
+     12
+    </div>
+    <div class="calendar-day" data-day="13">
+     13
+    </div>
+    <div class="calendar-day" data-day="14">
+     14
+    </div>
+    <div class="calendar-day" data-day="15">
+     15
+    </div>
+    <div class="calendar-day" data-day="16">
+     16
+    </div>
+    <div class="calendar-day" data-day="17">
+     17
+    </div>
+    <div class="calendar-day" data-day="18">
+     18
+    </div>
+    <div class="calendar-day" data-day="19">
+     19
+    </div>
+    <div class="calendar-day" data-day="20">
+     20
+    </div>
+    <div class="calendar-day" data-day="21">
+     21
+    </div>
+    <div class="calendar-day" data-day="22">
+     22
+    </div>
+    <div class="calendar-day" data-day="23">
+     23
+    </div>
+    <div class="calendar-day" data-day="24">
+     24
+    </div>
+   </div>
+   <div class="message" id="message">
+    Klikněte na číslo dne a získejte slevový kód! 🎁
+   </div>
+  </div>
+  <script>
+        // Slevové kódy pro každý den
+        const messages = {
+            1: "🎁 SLEVA 5% na celý nákup!<br><strong>Kód: aB5xKm9Q</strong><br>(Automaticky zkopírováno)",
+            2: "🚚 DOPRAVA ZDARMA!<br><strong>Kód: Dp7RvNw2</strong><br>(Automaticky zkopírováno)",
+            3: "💰 SLEVA 10% na celý nákup!<br><strong>Kód: hJ3TqZy8</strong><br>(Automaticky zkopírováno)",
+            4: "📦 DOBÍRKA ZDARMA!<br><strong>Kód: Db4WxLm6</strong><br>(Automaticky zkopírováno)",
+            5: "🔥 SLEVA 15% na celý nákup!<br><strong>Kód: kP9FsGt1</strong><br>(Automaticky zkopírováno)",
+            6: "🚚 DOPRAVA ZDARMA!<br><strong>Kód: Dp2YnHv5</strong><br>(Automaticky zkopírováno)",
+            7: "💸 SLEVA 8% na celý nákup!<br><strong>Kód: mC8RjXw3</strong><br>(Automaticky zkopírováno)",
+            8: "🎯 SLEVA 12% na celý nákup!<br><strong>Kód: qL6VbNz9</strong><br>(Automaticky zkopírováno)",
+            9: "📦 DOBÍRKA ZDARMA!<br><strong>Kód: Db7KpMt4</strong><br>(Automaticky zkopírováno)",
+            10: "🚀 SLEVA 20% na celý nákup!<br><strong>Kód: sF1WdYx8</strong><br>(Automaticky zkopírováno)",
+            11: "🚚 DOPRAVA ZDARMA!<br><strong>Kód: Dp5GhJv2</strong><br>(Automaticky zkopírováno)",
+            12: "💎 SLEVA 7% na celý nákup!<br><strong>Kód: tN3QzRw7</strong><br>(Automaticky zkopírováno)",
+            13: "⭐ SLEVA 18% na celý nákup!<br><strong>Kód: vB9XkLm1</strong><br>(Automaticky zkopírováno)",
+            14: "📦 DOBÍRKA ZDARMA!<br><strong>Kód: Db6PsHt3</strong><br>(Automaticky zkopírováno)",
+            15: "🎊 SLEVA 25% na celý nákup!<br><strong>Kód: wD2YfNz5</strong><br>(Automaticky zkopírováno)",
+            16: "🚚 DOPRAVA ZDARMA!<br><strong>Kód: Dp8TjVx4</strong><br>(Automaticky zkopírováno)",
+            17: "💫 SLEVA 13% na celý nákup!<br><strong>Kód: xG4RmWy6</strong><br>(Automaticky zkopírováno)",
+            18: "🌟 SLEVA 22% na celý nákup!<br><strong>Kód: yK7QnZt9</strong><br>(Automaticky zkopírováno)",
+            19: "📦 DOBÍRKA ZDARMA!<br><strong>Kód: Db1LpHv8</strong><br>(Automaticky zkopírováno)",
+            20: "🔥 SLEVA 28% na celý nákup!<br><strong>Kód: zM5SfXw2</strong><br>(Automaticky zkopírováno)",
+            21: "🚚 DOPRAVA ZDARMA!<br><strong>Kód: Dp3BgJt7</strong><br>(Automaticky zkopírováno)",
+            22: "💰 SLEVA 16% na celý nákup!<br><strong>Kód: bN9VkYz4</strong><br>(Automaticky zkopírováno)",
+            23: "🎉 SLEVA 30% na celý nákup!<br><strong>Kód: cP6WdRx1</strong><br>(Automaticky zkopírováno)",
+            24: "🎅 SLEVA 2% na celý nákup!<br><strong>Kód: dQ8TmLz3</strong><br>(Automaticky zkopírováno)"
+        };
+
+        // Kódy pro kopírování
+        const codes = {
+            1: "aB5xKm9Q", 2: "Dp7RvNw2", 3: "hJ3TqZy8", 4: "Db4WxLm6",
+            5: "kP9FsGt1", 6: "Dp2YnHv5", 7: "mC8RjXw3", 8: "qL6VbNz9",
+            9: "Db7KpMt4", 10: "sF1WdYx8", 11: "Dp5GhJv2", 12: "tN3QzRw7",
+            13: "vB9XkLm1", 14: "Db6PsHt3", 15: "wD2YfNz5", 16: "Dp8TjVx4",
+            17: "xG4RmWy6", 18: "yK7QnZt9", 19: "Db1LpHv8", 20: "zM5SfXw2",
+            21: "Dp3BgJt7", 22: "bN9VkYz4", 23: "cP6WdRx1", 24: "dQ8TmLz3"
+        };
+
+        // Kopírování do schránky
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyConfirmation(text);
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showCopyConfirmation(text);
+        }
+
+        function showCopyConfirmation(code) {
+            const messageEl = document.getElementById('message');
+            const originalHTML = messageEl.innerHTML;
+            
+            messageEl.innerHTML = `✅ Kód <strong>${code}</strong> zkopírován do schránky!<br>Můžete ho vložit do košíku!`;
+            messageEl.style.background = 'rgba(34, 139, 34, 0.9)';
+            messageEl.style.color = 'white';
+            
+            setTimeout(() => {
+                messageEl.innerHTML = originalHTML;
+                messageEl.style.background = 'rgba(255,255,255,0.95)';
+                messageEl.style.color = '#333';
+            }, 3000);
+        }
+
+        // Kontrola data a inicializace
+        function checkAndUpdateCalendar() {
+            const today = new Date();
+            const currentDay = today.getDate();
+            const currentMonth = today.getMonth() + 1; // Leden = 0, takže +1
+            const currentYear = today.getFullYear();
+            
+            // Kontrola, zda jsme v prosinci 2024
+            const isDecember2024 = currentMonth === 12 && currentYear === 2024;
+            
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                const dayNumber = parseInt(day.getAttribute('data-day'));
+                
+                if (isDecember2024 && dayNumber === currentDay) {
+                    // Dnes - aktivní
+                    day.classList.add('active-today');
+                    day.style.background = 'linear-gradient(135deg, #ffd700, #ffb347)';
+                    day.style.color = '#333';
+                    day.style.border = '3px solid #ff6b6b';
+                    day.style.animation = 'pulse 2s infinite';
+                } else if (isDecember2024 && dayNumber < currentDay) {
+                    // Minulé dny - prošlé
+                    day.classList.add('past-day');
+                    day.style.background = 'linear-gradient(135deg, #666, #444)';
+                    day.style.opacity = '0.6';
+                    day.style.cursor = 'not-allowed';
+                } else {
+                    // Budoucí dny nebo jiný měsíc - zamčené
+                    day.classList.add('locked-day');
+                    day.style.background = 'linear-gradient(135deg, #999, #666)';
+                    day.style.opacity = '0.4';
+                    day.style.cursor = 'not-allowed';
+                }
+            });
+        }
+
+        // Kliknutí na den
+        document.querySelectorAll('.calendar-day').forEach(day => {
+            day.addEventListener('click', function() {
+                const dayNumber = parseInt(this.getAttribute('data-day'));
+                const today = new Date();
+                const currentDay = today.getDate();
+                const currentMonth = today.getMonth() + 1;
+                const currentYear = today.getFullYear();
+                
+                // Kontrola, zda je dnes správný den
+                const isDecember2024 = currentMonth === 12 && currentYear === 2024;
+                const isToday = isDecember2024 && dayNumber === currentDay;
+                
+                if (!isToday) {
+                    // Není správný den
+                    let errorMessage = '';
+                    if (!isDecember2024) {
+                        errorMessage = `🔒 Kalendář je aktivní pouze v prosinci 2024!<br>Dnes je ${currentDay}.${currentMonth}.${currentYear}`;
+                    } else if (dayNumber > currentDay) {
+                        errorMessage = `🔒 Den ${dayNumber} se otevře až ${dayNumber}. prosince!<br>Dnes je ${currentDay}. prosince`;
+                    } else {
+                        errorMessage = `⏰ Den ${dayNumber} už prošel!<br>Byl dostupný ${dayNumber}. prosince`;
+                    }
+                    
+                    const messageEl = document.getElementById('message');
+                    messageEl.innerHTML = errorMessage;
+                    messageEl.style.background = 'rgba(255, 99, 99, 0.9)';
+                    messageEl.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        messageEl.innerHTML = 'Klikněte na číslo dne a získejte slevový kód! 🎁';
+                        messageEl.style.background = 'rgba(255,255,255,0.95)';
+                        messageEl.style.color = '#333';
+                    }, 4000);
+                    
+                    return;
+                }
+                
+                // Je správný den - normální funkce
+                const message = messages[dayNumber];
+                const code = codes[dayNumber];
+                
+                // Zobrazit zprávu
+                document.getElementById('message').innerHTML = message;
+                
+                // Označit jako otevřené
+                this.classList.add('opened');
+                this.style.background = 'linear-gradient(135deg, #228b22, #006400)';
+                
+                // Zkopírovat kód
+                if (code) {
+                    setTimeout(() => {
+                        copyToClipboard(code);
+                    }, 500);
+                }
+                
+                // Animace
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 300);
+            });
+        });
+
+        // Spustit kontrolu při načtení
+        checkAndUpdateCalendar();
+        
+        // Kontrolovat každou minutu (pro případ změny dne)
+        setInterval(checkAndUpdateCalendar, 60000);
+
+        // Sněhové vločky
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snow');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // Vytváření sněhových vloček
+        setInterval(createSnowflake, 300);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f8a6664563b36b',t:'MTc2MzMxMzUzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+    
+  </body>
+  
+</html>
